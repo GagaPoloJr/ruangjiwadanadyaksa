@@ -4,16 +4,40 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Str;
 
 class Artwork extends Model
 {
     //
     use HasFactory;
 
-    protected $fillable = ['image', 'author', 'description', 'category'];
+    protected $fillable = ['title', 'image', 'author', 'description', 'category', 'slug', 'featured_description'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($artwork) {
+            $artwork->slug = Str::slug($artwork->title);
+        });
+
+        static::updating(function ($artwork) {
+            $artwork->slug = Str::slug($artwork->title);
+        });
+
+        static::saving(function ($artwork) {
+            $artwork->featured_description = Str::limit(strip_tags($artwork->description), 200);
+        });
+    }
 
     public function votes()
     {
         return $this->hasMany(Votes::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
+
 }

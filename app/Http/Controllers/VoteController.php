@@ -17,7 +17,6 @@ class VoteController extends Controller
 
         $ipAddress = $request->ip();
 
-        // Cek apakah IP sudah voting untuk kategori ini
         $existingVote = Votes::where('ip_address', $ipAddress)
             ->where('category_id', $request->category_id)
             ->first();
@@ -26,7 +25,6 @@ class VoteController extends Controller
             return response()->json(['message' => 'Anda sudah voting di kategori ini!'], 400);
         }
 
-        // Simpan vote baru
         Votes::create([
             'artwork_id' => $request->artwork_id,
             'category_id' => $request->category_id,
