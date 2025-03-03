@@ -51,6 +51,14 @@ class FrontController extends Controller
 
     public function show(Artwork $artwork)
     {
+        // Load comments dengan urutan terbaru
+        $artwork->load([
+            'comments' => function ($query) {
+                $query->latest();
+            }
+        ]);
+
         return view('artworks.detail', compact('artwork'));
     }
+
 }

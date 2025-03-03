@@ -3,7 +3,6 @@
 @section('title', $artwork->title . ' - Detail Artwork')
 
 @section('content')
-    <!-- Tombol Kembali -->
     <a href="{{ route('vote.index') }}" class="text-blue-500 hover:text-blue-700 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -11,21 +10,19 @@
         Kembali ke Galeri
     </a>
 
-    <!-- Detail Artwork -->
     <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
-        <div class="relative group cursor-pointer" x-data="{ showModal: false }">
-            <!-- Gambar Artwork -->
-            <img @click="showModal = true" src="{{ asset('storage/' . $artwork->image) }}" alt="{{ $artwork->title }}"
-                class="w-full h-96 object-cover rounded-lg transition-transform duration-300 ease-in-out" />
+        <div x-data="{ showModal: false }">
+            <div class="relative group cursor-pointer">
+                <img @click="showModal = true" src="{{ asset('storage/' . $artwork->image) }}" alt="{{ $artwork->title }}"
+                    class="w-full h-96 object-cover rounded-lg transition-transform duration-300 ease-in-out" />
 
-            <!-- Badge Kategori -->
-            <span
-                class="absolute top-4 left-4 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                {{ $artwork->category ?? 'Uncategorized' }}
-            </span>
+                <span
+                    class="absolute top-4 left-4 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    {{ $artwork->category ?? 'Uncategorized' }}
+                </span>
+            </div>
 
-            <!-- Modal Gambar -->
-            <div x-show="showModal" x-transition
+            <div x-cloak x-show="showModal" x-transition
                 class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
                 @click="showModal = false">
                 <div class="relative bg-white rounded-lg p-4 max-w-4xl w-full shadow-lg" @click.stop>
@@ -38,7 +35,6 @@
             </div>
         </div>
 
-        <!-- Informasi Artwork -->
         <p class="text-sm text-gray-500 mt-4">Oleh: {{ $artwork->author }}</p>
         <p class="text-sm text-gray-500 mt-2">Diupload: {{ $artwork->created_at->format('d-m-Y') }}</p>
         <h1 class="text-3xl font-bold mt-4">{{ $artwork->title }}</h1>
@@ -47,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Form Komentar -->
     <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
         <h2 class="text-2xl font-bold mb-4">Tinggalkan Komentar</h2>
         <form action="{{ route('comments.store', $artwork->slug) }}" method="POST">
@@ -71,20 +66,27 @@
     </div>
 
     <!-- Daftar Komentar -->
-    <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-bold mb-4">Komentar</h2>
+    <div class="mt-8 bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+        <h2 class="text-2xl font-bold mb-4">💬 Komentar</h2>
         @if ($artwork->comments->isEmpty())
             <p class="text-gray-600">Belum ada komentar.</p>
         @else
             @foreach ($artwork->comments as $comment)
-                <div class="mb-4 border-b pb-4">
-                    <div class="flex justify-between items-center">
-                        <p class="font-bold">{{ $comment->name }}</p>
-                        <p class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</p>
+                <div class="flex items-start space-x-4 p-4 border-b last:border-b-0">
+                    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">
+                        {{ strtoupper(substr($comment->name, 0, 1)) }}
                     </div>
-                    <p class="text-gray-700 mt-2">{{ $comment->comment }}</p>
+
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center">
+                            <p class="font-semibold text-gray-800">{{ $comment->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</p>
+                        </div>
+                        <p class="text-gray-700 mt-1">{{ $comment->comment }}</p>
+                    </div>
                 </div>
             @endforeach
         @endif
     </div>
+
 @endsection

@@ -21,4 +21,5 @@ class Votes extends Model
     {
         return $this->belongsTo(CategoryVote::class);
     }
+
 }

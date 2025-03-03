@@ -40,4 +40,8 @@ class Artwork extends Model
         return $this->hasMany(Comment::class)->latest();
     }
 
+    public function totalVotes()
+    {
+        return $this->votes->count();
+    }
 }

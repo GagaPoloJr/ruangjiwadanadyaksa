@@ -15,7 +15,7 @@
             <div class="flex justify-between items-center">
                 <h4 class="text-3xl font-extrabold text-white">
                     <x-feathericon-award class="inline-block mr-2 h-8 w-8" />
-                    Artwork Voting Gallery
+                    Ruang Jiwa Danadyaksa
                 </h4>
                 <div class="text-white text-sm">
                     <span class="bg-amber-600 px-3 py-1 rounded-full">Vote for your favorite artwork</span>
