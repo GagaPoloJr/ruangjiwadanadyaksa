@@ -25,33 +25,33 @@ use Illuminate\Support\Facades\Route;
 Route::post('/git-webhook', function () {
     try {
         // Jalankan perintah Git Pull
-        // $output = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main 2>&1');
+        $output = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main 2>&1');
 
         // Jalankan Composer Install (tanpa dev dependencies)
         // $composerOutput = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && composer install --no-dev --prefer-dist 2>&1');
 
         // Generate Key
-        Artisan::call('key:generate');
-        $keyOutput = Artisan::output();
+        // Artisan::call('key:generate');
+        // $keyOutput = Artisan::output();
 
-        // Jalankan migrate dengan force
-        Artisan::call('migrate', ['--force' => true]);
-        $migrateOutput = Artisan::output();
+        // // Jalankan migrate dengan force
+        // Artisan::call('migrate', ['--force' => true]);
+        // $migrateOutput = Artisan::output();
 
         // Log output ke Laravel log
         Log::info('Git Deploy Output:', [
-            // 'git' => $output,
+            'git' => $output,
             // 'composer' => $composerOutput,
-            'key_generate' => $keyOutput,
-            'migrate' => $migrateOutput
+            // 'key_generate' => $keyOutput,
+            // 'migrate' => $migrateOutput
         ]);
 
         return Response::json([
             'message' => 'Repository updated!',
-            // 'git_output' => $output,
+            'git_output' => $output,
             // 'composer_output' => $composerOutput,
             // 'key_generate_output' => $keyOutput,
-            'migrate_output' => $migrateOutput
+            // 'migrate_output' => $migrateOutput
         ]);
     } catch (\Exception $e) {
         Log::error('Git Webhook Error: ' . $e->getMessage());
