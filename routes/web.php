@@ -9,16 +9,53 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+// Route::post('/git-webhook', function () {
+//     try {
+//         $output = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main && composer install --no-dev --prefer-dist && php artisan migrate --force 2>&1');
+
+//         Log::info('Git Deploy Output:', [$output]);
+
+//         return response()->json(['message' => 'Repository updated!', 'output' => $output]);
+//     } catch (\Exception $e) {
+//         Log::error('Git Webhook Error: ' . $e->getMessage());
+//         return response()->json(['error' => 'Failed to update repository'], 500);
+//     }
+// });
+
 Route::post('/git-webhook', function () {
     try {
-        $output = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main && composer install --no-dev --prefer-dist && php artisan migrate --force 2>&1');
+        // Jalankan perintah Git Pull
+        // $output = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main 2>&1');
 
-        Log::info('Git Deploy Output:', [$output]);
+        // Jalankan Composer Install (tanpa dev dependencies)
+        // $composerOutput = shell_exec('cd /home/ruat9133/repositories/ruangjiwadanadyaksa && composer install --no-dev --prefer-dist 2>&1');
 
-        return response()->json(['message' => 'Repository updated!', 'output' => $output]);
+        // Generate Key
+        Artisan::call('key:generate');
+        $keyOutput = Artisan::output();
+
+        // Jalankan migrate dengan force
+        Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = Artisan::output();
+
+        // Log output ke Laravel log
+        Log::info('Git Deploy Output:', [
+            // 'git' => $output,
+            // 'composer' => $composerOutput,
+            'key_generate' => $keyOutput,
+            'migrate' => $migrateOutput
+        ]);
+
+        return Response::json([
+            'message' => 'Repository updated!',
+            // 'git_output' => $output,
+            // 'composer_output' => $composerOutput,
+            // 'key_generate_output' => $keyOutput,
+            'migrate_output' => $migrateOutput
+        ]);
     } catch (\Exception $e) {
         Log::error('Git Webhook Error: ' . $e->getMessage());
-        return response()->json(['error' => 'Failed to update repository'], 500);
+        return Response::json(['error' => 'Failed to update repository'], 500);
     }
 });
 
