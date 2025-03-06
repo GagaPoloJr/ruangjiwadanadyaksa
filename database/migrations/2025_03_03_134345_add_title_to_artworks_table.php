@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('artworks', function (Blueprint $table) {
             //
-            $table->unique('title')->after('id');
+            $table->string('title')->after('id')->unique();
 
         });
     }

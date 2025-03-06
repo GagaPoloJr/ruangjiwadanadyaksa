@@ -10,7 +10,7 @@
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100">
-    <div class="bg-gradient-to-r from-amber-400 to-yellow-500 shadow-lg">
+    {{-- <div class="bg-gradient-to-r from-amber-400 to-yellow-500 shadow-lg">
         <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <h4 class="text-3xl font-extrabold text-white">
@@ -22,10 +22,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class=" mx-auto">
         @yield('content')
     </div>
+    @include('layouts.footer')
 </body>
 
 </html>

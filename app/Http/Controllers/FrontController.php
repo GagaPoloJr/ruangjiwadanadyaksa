@@ -15,8 +15,31 @@ class FrontController extends Controller
         $categories = CategoryVote::all();
         $artworks = Artwork::all();
 
+        $steps = [
+            [
+                'number' => 1,
+                'title' => 'Pilih Karya Seni',
+                'description' => 'Pilih karya seni yang kamu suka dari daftar karya seni yang tersedia.',
+            ],
+            [
+                'number' => 2,
+                'title' => 'Klik Tombol Vote',
+                'description' => 'Tekan tombol vote untuk memberikan suara pada karya seni favoritmu.',
+            ],
+            [
+                'number' => 3,
+                'title' => 'Pilih Kategori',
+                'description' => 'Pilih kategori voting yang kamu inginkan.',
+            ],
+            [
+                'number' => 4,
+                'title' => 'Selesai',
+                'description' => 'Voting kamu telah berhasil! Karya seni dengan suara terbanyak akan memenangkan kompetisi.',
+            ],
+        ];
 
-        return view('vote.index', compact('categories', 'artworks'));
+
+        return view('vote.index', compact('categories', 'artworks', 'steps'));
     }
 
     public function vote(Request $request)
