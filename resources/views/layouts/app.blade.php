@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class=" mx-auto px-4 py-8">
+    <div class=" mx-auto">
         @yield('content')
     </div>
 </body>

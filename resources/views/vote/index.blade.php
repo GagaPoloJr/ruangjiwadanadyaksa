@@ -2,9 +2,11 @@
 
 @section('title', 'Vote Artwork')
 
-@section('content')
-    <div class="max-w-7xl mx-auto mt-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+@section(section: 'content')
+    @include('homepage.hero')
+
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-x font-bold text-gray-800 mb-6 text-center">
             Featured Artworks
             <div class="h-1 w-24 bg-amber-400 mx-auto mt-2 rounded-full"></div>
         </h2>
