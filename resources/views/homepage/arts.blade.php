@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto">
     <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-        Karya Seni
+        Vote Karya Seni
         <div class="h-1 w-24 bg-amber-400 mx-auto mt-2 rounded-full"></div>
     </h2>
 
