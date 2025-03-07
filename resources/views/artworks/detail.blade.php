@@ -3,8 +3,32 @@
 @section('title', $artwork->title . ' - Detail Artwork')
 
 @section('content')
+
+    <!-- Success/Error Modal -->
+    @if (session('success') || session('error'))
+        <div id="messageModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h5 class="text-xl font-bold">
+                        {{ session('success') ? '✅ Berhasil!' : '❌ Gagal!' }}
+                    </h5>
+                    <button onclick="closeMessageModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+                </div>
+                <p class="mt-4 text-gray-700">
+                    {{ session('success') ?? session('error') }}
+                </p>
+                <button onclick="closeMessageModal()"
+                    class="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                    OK
+                </button>
+            </div>
+        </div>
+    @endif
+
+
     <a href="{{ route('vote.index') }}" class="text-blue-500 hover:text-blue-700 flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Kembali ke Galeri
@@ -35,6 +59,24 @@
             </div>
         </div>
 
+        <div class="flex mb-3 w-full">
+            @php
+                $isVotingEnded = now()->greaterThanOrEqualTo($votingDeadline);
+            @endphp
+
+            @if (!$isVotingEnded)
+                <button
+                    class="flex-1 bg-[#7B0206] rounded-lg text-white font-bold py-3 px-8 transition-colors duration-300 hover:bg-[#9B0206] border-2 border-[#111111] shadow-[0px_4px_0px_0px_#111111] items-center justify-center"
+                    onclick="openModal({{ $artwork->id }})">
+                    <div class="flex justify-center items-center gap-2">
+                        <x-heroicon-o-star width='20' /> <span>
+                            Vote
+                        </span>
+                    </div>
+                </button>
+            @endif
+        </div>
+
         <p class="text-sm text-gray-500 mt-4">Oleh: {{ $artwork->author }}</p>
         <p class="text-sm text-gray-500 mt-2">Diupload: {{ $artwork->created_at->format('d-m-Y') }}</p>
         <h1 class="text-3xl font-bold mt-4">{{ $artwork->title }}</h1>
@@ -59,7 +101,7 @@
                     class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" required></textarea>
             </div>
             <button type="submit"
-                class="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
+                class="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 border-2 border-[#111111] shadow-[0px_4px_0px_0px_#111111]">
                 Kirim Komentar
             </button>
         </form>
@@ -89,4 +131,51 @@
         @endif
     </div>
 
+
+    <!-- Modal -->
+    <div id="voteModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h5 class="text-xl font-bold">Pilih Kategori untuk Vote</h5>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="voteForm" action="{{ route('vote.store') }}" method="POST" class="mt-4">
+                @csrf
+                <input type="hidden" name="artwork_id" id="artwork_id">
+                <div class="mb-4">
+                    <label for="category_id" class="block font-semibold text-gray-700">Pilih Kategori</label>
+                    <select name="category_id" id="category_id"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                        <option value="" disabled selected>-- Pilih Kategori --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600 transition">
+                    Kirim Vote
+                </button>
+            </form>
+        </div>
+    </div>
+
+@endsection
+
+
+@section('scripts')
+    <script>
+        function openModal(artworkId) {
+            document.getElementById("artwork_id").value = artworkId;
+            document.getElementById("voteModal").classList.remove("hidden");
+        }
+
+        function closeModal() {
+            document.getElementById("voteModal").classList.add("hidden");
+        }
+
+        function closeMessageModal() {
+            document.getElementById("messageModal").remove();
+        }
+    </script>
 @endsection

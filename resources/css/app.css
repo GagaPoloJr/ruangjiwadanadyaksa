@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+html {
+    scroll-behavior: smooth;
+}
+
 @layer utilities {
     .animate-fade-in-down {
         animation: fade-in-down 0.5s ease-out;

@@ -11,15 +11,15 @@
         <img class="absolute md:top-48 right-0  md:right-20 z-0" src="/assets/ornament/green-hand.png" alt="">
         <img class="absolute md:top-32 md:left-20 z-0" src="/assets/ornament/orange-hand.png" alt="">
         <div class="relative z-99">
-            <h1 class="text-4xl md:text-7xl  font-bold text-[#7B0206] text-center w-full md:w-2/3 mx-auto">Apresiasi
+            <h1 class="relative z-50 text-4xl md:text-7xl  font-bold text-[#7B0206] text-center w-full md:w-2/3 mx-auto">Apresiasi
                 Setiap Karya,
                 Dukung
                 dengan Suaramu!</h1>
-            <p class="text-[#444444] my-5 text-center w-full md:w-3/5 mx-auto">Beri komentar, kirim pesan dukungan, dan
+            <p class="relative z-50  text-[#444444] my-5 text-center w-full md:w-3/5 mx-auto">Beri komentar, kirim pesan dukungan, dan
                 voting karya favoritmu
                 setiap minggu. Mari hargai setiap goresan perasaan, lukisan ekspresi, dan larik bermakna.</p>
-            <a href="#"
-                class="bg-[#7B0206] rounded-full text-white font-bold py-3 px-8 transition-colors duration-300 hover:bg-[#9B0206] border-2 border-[#111111] shadow-[0px_4px_0px_0px_#111111]">
+            <a href="#vote"
+                class="relative z-50 bg-[#7B0206] rounded-full text-white font-bold py-3 px-8 transition-colors duration-300 hover:bg-[#9B0206] border-2 border-[#111111] shadow-[0px_4px_0px_0px_#111111]">
                 Mulai Voting Sekarang
             </a>
         </div>
@@ -30,9 +30,12 @@
         <div class="ornament w-[200px] md:w-[auto] absolute bottom-0 md:bottom-24 left-0 z-10">
             <img src="/assets/ornament/ornament-left.png" alt="">
         </div>
-        <img class="absolute bottom-0 md:bottom-10 left-96 z-10" src="/assets/ornament/ornament-left-2.png" alt="">
-        <img class="absolute bottom-0 md:bottom-20 right-96 z-10" src="/assets/ornament/ornament-right-2.png" alt="">
-        <img class="absolute bottom-0 md:bottom-64 right-0 z-10" src="/assets/ornament/ornament-right.png" alt="">
+        <img class="absolute bottom-0 md:bottom-10 left-96 z-10" src="/assets/ornament/ornament-left-2.png"
+            alt="">
+        <img class="absolute bottom-0 md:bottom-20 right-96 z-10" src="/assets/ornament/ornament-right-2.png"
+            alt="">
+        <img class="absolute bottom-0 md:bottom-64 right-0 z-10" src="/assets/ornament/ornament-right.png"
+            alt="">
 
         <svg class="relative z-20" id="wave" style="transform:rotate(0deg); transition: 0.3s"
             viewBox="0 0 1440 270" version="1.1" xmlns="http://www.w3.org/2000/svg">

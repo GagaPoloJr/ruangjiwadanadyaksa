@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Votes;
 use App\Models\Artwork;
@@ -14,6 +16,9 @@ class FrontController extends Controller
     {
         $categories = CategoryVote::all();
         $artworks = Artwork::all();
+        $votingDeadline = Setting::get('voting_deadline', now()->addDays(3)->toDateTimeString());
+        $seo['meta_title'] = Setting::get('seo_title', 'Default Title');
+        $seo['meta_desc'] = Setting::get('seo_description', 'Default Description');
 
         $steps = [
             [
@@ -39,7 +44,7 @@ class FrontController extends Controller
         ];
 
 
-        return view('vote.index', compact('categories', 'artworks', 'steps'));
+        return view('vote.index', compact('categories', 'artworks', 'steps', 'seo', 'votingDeadline'));
     }
 
     public function vote(Request $request)
@@ -48,6 +53,14 @@ class FrontController extends Controller
             'artwork_id' => 'required|exists:artworks,id',
             'category_id' => 'required|exists:category_votes,id',
         ]);
+
+        $votingDeadline = Setting::get('voting_deadline', now()->addDays(3)->toDateTimeString());
+        $votingDeadline = Carbon::parse($votingDeadline);
+
+        // Check if voting period has expired
+        if (now()->greaterThan($votingDeadline)) {
+            return back()->with('error', 'Voting telah ditutup. Anda tidak dapat melakukan voting.');
+        }
 
         $ipAddress = $request->ip();
         $userAgent = $request->header('User-Agent');
@@ -58,10 +71,9 @@ class FrontController extends Controller
             ->first();
 
         if ($existingVote) {
-            return back()->with('error', 'Anda sudah voting untuk artwork ini dalam kategori ini.');
+            return back()->with('error', 'Anda sudah voting untuk karya ini.');
         }
 
-        // Simpan vote baru
         Votes::create([
             'artwork_id' => $request->artwork_id,
             'category_id' => $request->category_id,
@@ -74,14 +86,16 @@ class FrontController extends Controller
 
     public function show(Artwork $artwork)
     {
-        // Load comments dengan urutan terbaru
+        $categories = CategoryVote::all();
+        $votingDeadline = Setting::get('voting_deadline', now()->addDays(3)->toDateTimeString());
+
         $artwork->load([
             'comments' => function ($query) {
                 $query->latest();
             }
         ]);
 
-        return view('artworks.detail', compact('artwork'));
+        return view('artworks.detail', compact('artwork', 'categories', 'votingDeadline'));
     }
 
 }
