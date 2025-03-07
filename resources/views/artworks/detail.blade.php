@@ -42,7 +42,7 @@
 
                 <span
                     class="absolute top-4 left-4 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                    {{ $artwork->category ?? 'Uncategorized' }}
+                    {{ getCategoryLabel($artwork->category) ?? 'Uncategorized' }}
                 </span>
             </div>
 

@@ -30,6 +30,8 @@ class Artwork extends Model
         });
     }
 
+
+
     public function votes()
     {
         return $this->hasMany(Votes::class);
