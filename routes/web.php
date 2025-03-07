@@ -22,6 +22,12 @@ use Illuminate\Support\Facades\Route;
 //     }
 // });
 
+Route::get('/run-dump-autoload', function (Request $request) {
+  
+    Artisan::call('dump-autoload');
+    return response()->json(['message' => 'Composer dump-autoload executed']);
+});
+
 Route::post('/git-webhook', function () {
     try {
         // Jalankan perintah Git Pull
