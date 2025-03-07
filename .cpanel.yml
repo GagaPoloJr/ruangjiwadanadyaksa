@@ -1,12 +1,12 @@
 deployment:
   tasks:
-    - cd /home/ruat9133/repositories/ruangjiwadanadyaksa
-    - git pull origin main
-    - composer install --no-dev --optimize-autoloader
-    - npm install
-    - npm run build
-    - rsync -av --delete public/build/ /home/ruat9133/public_html/
-    - php artisan cache:clear
-    - php artisan config:clear
-    - php artisan view:clear
-    - php artisan route:clear
+    - /bin/bash -c 'cd /home/ruat9133/repositories/ruangjiwadanadyaksa && git pull origin main'
+    - /bin/bash -c 'cd /home/ruat9133/repositories/ruangjiwadanadyaksa && composer install --no-dev --optimize-autoloader'
+    - /bin/bash -c 'cd /home/ruat9133/repositories/ruangjiwadanadyaksa && composer dump-autoload'
+    - /bin/bash -c 'cd /home/ruat9133/repositories/ruangjiwadanadyaksa && npm ci'
+    - /bin/bash -c 'cd /home/ruat9133/repositories/ruangjiwadanadyaksa && npm run build'
+    - /bin/bash -c 'rsync -av --delete /home/ruat9133/repositories/ruangjiwadanadyaksa/public/build/ /home/ruat9133/public_html/'
+    - /bin/bash -c 'cd /home/ruat9133/public_html && php artisan cache:clear'
+    - /bin/bash -c 'cd /home/ruat9133/public_html && php artisan config:clear'
+    - /bin/bash -c 'cd /home/ruat9133/public_html && php artisan view:clear'
+    - /bin/bash -c 'cd /home/ruat9133/public_html && php artisan route:clear'
