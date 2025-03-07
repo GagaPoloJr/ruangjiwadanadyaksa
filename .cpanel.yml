@@ -1,0 +1,7 @@
+deployment:
+  tasks:
+    - cd /home/ruat9133/repositories/ruangjiwadanadyaksa
+    - git pull origin main
+    - npm install
+    - npm run build
+    - rsync -av --delete public/build/ /home/ruat9133/public_html/
