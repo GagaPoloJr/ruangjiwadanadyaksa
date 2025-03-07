@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 // Route::post('/git-webhook', function () {
 //     try {
@@ -23,9 +25,14 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/run-dump-autoload', function (Request $request) {
-  
-    Artisan::call('dump-autoload');
-    return response()->json(['message' => 'Composer dump-autoload executed']);
+
+    $process = new Process(['composer', 'dump-autoload']);
+    $process->run();
+
+    // Check if successful
+    if (!$process->isSuccessful()) {
+        throw new ProcessFailedException($process);
+    }
 });
 
 Route::post('/git-webhook', function () {
