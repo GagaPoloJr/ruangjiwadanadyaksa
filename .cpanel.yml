@@ -3,7 +3,6 @@ deployment:
     - cd /home/ruat9133/repositories/ruangjiwadanadyaksa
     - git pull origin main
     - composer install --no-dev --optimize-autoloader
-    - composer dump-autoload
     - npm install
     - npm run build
     - rsync -av --delete public/build/ /home/ruat9133/public_html/
