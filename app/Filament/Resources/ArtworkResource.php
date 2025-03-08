@@ -27,7 +27,7 @@ class ArtworkResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label('Judul Karya')->required()->columnSpanFull(),
+                Forms\Components\TextInput::make('title')->label('Judul Karya')->required()->unique(ignoreRecord: true)->columnSpanFull(),
                 Forms\Components\TextInput::make('author')->label('Pemilik Karya')->required()->columnSpanFull(),
                 Forms\Components\Select::make('category')
                     ->label('Kategori')
