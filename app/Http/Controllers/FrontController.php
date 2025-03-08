@@ -12,10 +12,10 @@ use App\Models\CategoryVote;
 
 class FrontController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = CategoryVote::all();
-        $artworks = Artwork::all();
+        $artworks = Artwork::paginate(6);
         $votingDeadline = Setting::get('voting_deadline', now()->addDays(3)->toDateTimeString());
         $seo['meta_title'] = Setting::get('seo_title', 'Default Title');
         $seo['meta_desc'] = Setting::get('seo_description', 'Default Description');
@@ -44,8 +44,20 @@ class FrontController extends Controller
         ];
 
 
+        if ($request->ajax()) {
+            return view('homepage.artwork-list', compact('artworks'))->render();
+        }
+
+
         return view('vote.index', compact('categories', 'artworks', 'steps', 'seo', 'votingDeadline'));
     }
+    public function loadMoreArtworks(Request $request)
+{
+    $artworks = Artwork::paginate(6);
+
+    return view('homepage.artwork-list', compact('artworks'))->render();
+}
+
 
     public function vote(Request $request)
     {
