@@ -30,6 +30,17 @@ class Artwork extends Model
         });
     }
 
+    public function getCategoryLabelAttribute()
+    {
+        $labels = [
+            'goresan' => 'Goresan Perasaan',
+            'ekspresi' => 'Lukisan Ekspresi',
+            'larik' => 'Larik Bermakna',
+        ];
+
+        return $labels[$this->category] ?? $this->category;
+    }
+
 
 
     public function votes()

@@ -26,7 +26,7 @@
                         class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                         <div class="p-4 text-white">
                             <p class="font-medium">
-                                {{ getCategoryLabel($artwork->category) }}
+                                {{ $artwork->category_label }}
                             </p>
                         </div>
                     </div>
