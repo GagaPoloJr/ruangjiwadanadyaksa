@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Str;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Artwork extends Model
 {
     //
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['title', 'image', 'author', 'description', 'category', 'slug', 'featured_description'];
-
+    protected $dates = ['deleted_at'];
     protected static function boot()
     {
         parent::boot();

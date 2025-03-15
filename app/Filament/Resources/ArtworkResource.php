@@ -41,8 +41,8 @@ class ArtworkResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->label('Gambar Karya')
-                    ->disk('public') // Simpan di storage/public
-                    ->directory('artworks') // Simpan dalam folder storage/app/public/artworks
+                    ->disk('public') 
+                    ->directory('artworks')
                     ->acceptedFileTypes(['image/jpeg', 'image/jpg'])
                     ->required()->columnSpanFull(),
                 RichEditor::make('description')
@@ -90,13 +90,18 @@ class ArtworkResource extends Resource
             ])
             ->filters([
                 //
+                Tables\Filters\TrashedFilter::make(), 
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\RestoreAction::make(), 
+            Tables\Actions\ForceDeleteAction::make(), 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(), 
                 ]),
             ]);
     }
